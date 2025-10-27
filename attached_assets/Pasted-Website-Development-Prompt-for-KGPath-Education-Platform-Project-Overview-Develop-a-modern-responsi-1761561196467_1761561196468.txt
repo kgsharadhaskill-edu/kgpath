@@ -1,0 +1,130 @@
+Website Development Prompt for KGPath Education Platform
+Project Overview
+Develop a modern, responsive education website for KGPath - an AI-focused learning platform offering cutting-edge technology courses.
+Course Offerings
+
+AI in Digital Marketing
+AI in Full Stack Development
+AI in Data Analytics
+
+Required Pages & Sections
+1. Homepage
+Include the following sections:
+
+Hero Section: Eye-catching banner with headline, subheadline, CTA button (e.g., "Explore Courses" or "Start Learning")
+About Us Brief: Short introduction about KGPath (2-3 sentences)
+Course Highlights: Cards/grid showcasing all 3 courses with icons, brief descriptions, and "Learn More" buttons
+Why Choose Us: Key benefits/features (expert instructors, industry-relevant curriculum, hands-on projects, placement support)
+Stats/Numbers: Student success metrics (students trained, placement rate, companies partnered)
+How It Works: Step-by-step enrollment process (Browse → Enroll → Learn → Get Placed)
+Testimonials: Student reviews and success stories (3-4 testimonials)
+Partners/Companies: Logos of hiring partner companies
+Call-to-Action Section: Encouragement to enroll with contact button
+Footer: Links to all pages, social media, contact information
+
+2. About Us Page
+
+Company mission and vision
+Story/founding background of KGPath
+Core values and teaching philosophy
+Team section (founders, instructors with photos and credentials)
+Achievements and milestones
+Infrastructure/learning facilities
+
+3. Courses Page
+
+Overview of all courses offered
+Course cards with:
+
+Course title and icon/image
+Duration
+Skill level (Beginner/Intermediate/Advanced)
+Brief description (2-3 lines)
+Key highlights (bullet points)
+"View Details" button
+
+
+Filter/sorting options (by category, duration, level)
+
+4. Course Detail Page (Individual page for each course)
+For each course, include:
+
+Course banner with title and hero image
+Overview: Detailed description of what the course covers
+What You'll Learn: Key learning outcomes (bullet points)
+Course Curriculum: Module-wise breakdown with topics
+Duration & Schedule: Total hours, batch timings, flexible options
+Prerequisites: Required background knowledge
+Tools & Technologies: Software/platforms covered
+Instructor Profile: Photo, name, credentials, experience
+Certification: Details about course completion certificate
+Fee Structure: Pricing, payment plans, EMI options
+Batch Information: Upcoming batch dates
+Enroll Now CTA button
+FAQs: Common questions about the course
+Related courses suggestion
+
+5. Placement Page
+
+Placement statistics (placement rate, average salary, highest package)
+Placement process explained
+Hiring partner companies (logos and names)
+Student success stories with photos and testimonials
+Alumni working at top companies
+Placement support services:
+
+Resume building
+Interview preparation
+Mock interviews
+Job assistance
+
+
+Company-wise placement records
+Photo gallery of placement drives/events
+
+6. Contact Page
+
+Contact form (Name, Email, Phone, Course Interest, Message)
+Office address with embedded Google Maps
+Phone numbers
+Email addresses
+Business hours
+Social media links
+"Visit Us" section with directions
+Alternative communication channels (WhatsApp, chat support)
+
+Design Requirements
+
+Color Scheme: Modern, professional (suggest primary colors: Blue/Purple for tech feel, accent colors for CTAs)
+Typography: Clean, readable fonts (modern sans-serif)
+Responsive Design: Mobile-first approach, works on all devices
+Navigation: Sticky header with logo and menu
+Imagery: Use AI/technology-themed graphics and illustrations
+Animations: Subtle scroll animations, hover effects
+Accessibility: WCAG compliant, keyboard navigation
+
+Technical Features
+
+Fast loading speed
+SEO optimized
+Contact form with validation and email integration
+Course enrollment/inquiry system
+Newsletter subscription
+Social media integration
+Analytics integration (Google Analytics)
+Live chat support option
+
+Call-to-Actions Throughout
+
+"Enroll Now" buttons on every course
+"Download Brochure" option
+"Book Free Demo Class"
+"Talk to Career Counselor"
+Phone/WhatsApp quick contact buttons
+
+Tone & Messaging
+
+Professional yet approachable
+Focus on career transformation and AI skills
+Emphasize industry relevance and placement support
+Inspire confidence in career growth
