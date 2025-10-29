@@ -1,8 +1,31 @@
+// src/lib/courses-data.ts
+
 import digitalMarketingImg from '@assets/generated_images/AI_Digital_Marketing_course_f14a1233.png';
 import fullStackImg from '@assets/generated_images/Full_Stack_Development_course_f8b6d374.png';
 import dataAnalyticsImg from '@assets/generated_images/Data_Analytics_course_image_514a317c.png';
 import instructorMaleImg from '@assets/generated_images/Instructor_profile_photo_d2262a53.png';
 import instructorFemaleImg from '@assets/generated_images/Female_instructor_photo_21be1cc7.png';
+
+// Image URLs for the hero form section
+const marketingFormImg = 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+const devFormImg = 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+const analyticsFormImg = 'https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
+
+// Centralized data for KGPATH Advantages
+export const kgpathAdvantages = [
+  { icon: 'Cpu', title: 'Quick-start your skills', description: 'Build job-ready capabilities through hands-on, guided learning.' },
+  { icon: 'LifeBuoy', title: 'Stay supported', description: 'Get expert mentorship, personalised learning, and guidance to overcome roadblocks.' },
+  { icon: 'BrainCircuit', title: 'Practice what you learn', description: 'Apply concepts through real-world exercises and drills.' },
+  { icon: 'Lightbulb', title: 'Learn from the best', description: 'Gain real-world insights through live, mentor-led sessions.' },
+  { icon: 'Sparkles', title: 'Showcase your skills', description: 'Earn a certificate that reflects your commitment, growth, skills, and capabilities.' },
+  { icon: 'Rocket', title: 'Designed for impact', description: 'Short-term focus, practical skills, long-term career value.' },
+];
+
+// Centralized data for Hiring Partners
+export const hiringPartners = [
+  "Borcelle Company", "Innovate Inc.", "Tech Solutions", "Data Corp", "Quantum Leap", "NextGen AI", "Synergy Systems", "Apex Digital"
+];
 
 export interface Course {
   keyHighlights: string[];
@@ -134,7 +157,7 @@ export const coursesData: Course[] = [
     keyHighlights: [],
     skills: [],
     specializations: [],
-    formImage: ''
+    formImage: marketingFormImg
   },
   {
     id: '2',
@@ -214,7 +237,7 @@ export const coursesData: Course[] = [
       },
       {
         question: 'What kind of projects will I build?',
-        answer: 'You will build 5+ real-world projects including an AI chatbot, recommendation system, content generation platform, and a complete SaaS application.'
+        answer: 'You will build 5+ real-world projects including an AI chatbot, a recommendation system, a content generation platform, and a complete SaaS application.'
       },
       {
         question: 'Do you provide interview preparation?',
@@ -224,7 +247,7 @@ export const coursesData: Course[] = [
     keyHighlights: [],
     skills: [],
     specializations: [],
-    formImage: ''
+    formImage: devFormImg
   },
   {
     id: '3',
@@ -314,7 +337,7 @@ export const coursesData: Course[] = [
     keyHighlights: [],
     skills: [],
     specializations: [],
-    formImage: ''
+    formImage: analyticsFormImg
   }
 ];
 

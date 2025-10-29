@@ -3,44 +3,28 @@
 import {
   AboutSection,
   CoursesSection,
-  CtaSection,
   HeroSection,
   HiringPartnersSection,
-  HowItWorksSection,
   StatsSection,
   TestimonialsSection,
   WhyChooseUsSection,
 } from './Home/index';
 // Data imports
-import { coursesData } from '@/lib/courses-data';
 import studentImg from '@assets/generated_images/Student_testimonial_photo_ccc63061.png';
 import heroImg from '@assets/generated_images/Education_hero_workspace_image_3704cc8a.png';
 
 // Icon imports (only for data definitions)
-import { Users, Trophy, Building2, GraduationCap, BookOpen, Rocket, UserCheck } from 'lucide-react';
+import { Users, Trophy, Building2, GraduationCap } from 'lucide-react';
+import CourseFAQSection from './Home/FAQSection';
 
 // Main Home component
 export default function Home() {
   // Data definitions remain here to be passed down as props
   const stats = [
-    { label: 'Students Trained', value: '10,000+', icon: Users },
-    { label: 'Placement Rate', value: '95%', icon: Trophy },
+    { label: 'Students Trained', value: '1000+', icon: Users },
+    { label: 'Placement Rate', value: '100%', icon: Trophy },
     { label: 'Partner Companies', value: '200+', icon: Building2 },
     { label: 'Expert Instructors', value: '50+', icon: GraduationCap }
-  ];
-
-  const features = [
-    { icon: Users, title: 'Expert Instructors', description: 'Learn from industry veterans with 10+ years of experience at top tech companies.' },
-    { icon: BookOpen, title: 'Industry-Relevant Curriculum', description: 'Stay ahead with courses updated quarterly to match current industry demands.' },
-    { icon: Rocket, title: 'Hands-on Projects', description: 'Build real-world projects that showcase your skills to potential employers.' },
-    { icon: UserCheck, title: 'Placement Support', description: 'Comprehensive job assistance with resume building, mock interviews, and referrals.' }
-  ];
-
-  const steps = [
-    { number: '01', title: 'Browse', description: 'Explore our AI-focused courses' },
-    { number: '02', title: 'Enroll', description: 'Choose your course and register' },
-    { number: '03', title: 'Learn', description: 'Master skills with expert guidance' },
-    { number: '04', title: 'Get Placed', description: 'Land your dream job' }
   ];
 
   const testimonials = [
@@ -85,13 +69,15 @@ export default function Home() {
     <div className="flex flex-col">
       <HeroSection heroImg={heroImg} testimonials={testimonialData}  />
       <CoursesSection/>
-      <WhyChooseUsSection features={features} />
-      <StatsSection stats={stats} />
-      <HowItWorksSection steps={steps} />
+      <WhyChooseUsSection/>
+      <StatsSection stats={stats}
+        heading="Proven Success by the Numbers"
+        subheading="We are proud of our commitment to excellence and the results we deliver. Our stats speak for themselves."
+       />
       <TestimonialsSection testimonials={testimonials} />
       <HiringPartnersSection companies={companies} />
+      <CourseFAQSection />
       <AboutSection />
-      <CtaSection />
     </div>
   );
 }

@@ -13,10 +13,22 @@
   }
 }
 
+.hover-elevate {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.hover-elevate:hover {
+  @apply -translate-y-2 shadow-xl;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500;
+}
 .animate-marquee {
   display: inline-flex;
   animation: marquee 15s linear infinite;
 }
+
 
 
 /* LIGHT MODE */
