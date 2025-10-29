@@ -302,26 +302,29 @@ export function Header() {
       
       {/* === ADDED: Contact Form Modal === */}
       {isModalOpen && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 animate-in fade-in"
-          onClick={closeModal}
-        >
-          {/* Stop propagation to prevent clicks inside the form from closing the modal */}
           <div 
-            className="relative w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 animate-in fade-in"
+            onClick={closeModal}
           >
-            <ContactForm onClose={closeModal} />
-            <button 
-              onClick={closeModal}
-              className="absolute top-2 right-2 md:top-4 md:right-4 p-2 rounded-full bg-gray-200/50 hover:bg-gray-300/80 transition-colors"
-              aria-label="Close form"
+            <div 
+              className="max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X className="h-5 w-5 text-gray-800" />
-            </button>
+
+              <div className="relative">
+                {/* The ContactForm's size and appearance are NOT changed. */}
+                <ContactForm onClose={closeModal} />
+                <button 
+                  onClick={closeModal}
+                  className="absolute top-2 right-2 md:top-2 md:right-2 p-2 rounded-full bg-gray-200/50 hover:bg-gray-300/80 transition-colors"
+                  aria-label="Close form"
+                >
+                  <X className="h-5 w-5 text-gray-800" />
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </React.Fragment>
   );
 }
