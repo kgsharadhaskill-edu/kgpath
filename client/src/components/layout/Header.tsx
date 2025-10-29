@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
-import logo from '../../../public/Frame 6.png';
+import logo from '../../../../attached_assets/Frame 6.png';
 import ContactForm from '../../pages/Home/ContactForm'; // Ensure this path is correct
 import { 
   Menu, 

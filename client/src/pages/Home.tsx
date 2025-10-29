@@ -41,7 +41,7 @@ export default function Home() {
   const testimonialData = [
   {
     id: 1,
-    image: '../../public/student-2.png', // Replace with your image path
+    image: '../../../student-2.png', // Replace with your image path
     quote: "Thanks to Hero Vired's program, I experienced significant personal and professional growth...",
     name: 'Darshita S.',
     title: 'Senior PR Manager',
@@ -49,7 +49,7 @@ export default function Home() {
   },
   {
     id: 2,
-    image: '../../public/student-2.png', // Replace with a different image
+    image: '../../../student-2.png', // Replace with a different image
     quote: "The practical, hands-on projects were incredible. I built a portfolio that got me hired at my dream company.",
     name: 'Rohan V.',
     title: 'Full Stack Developer',
@@ -57,7 +57,7 @@ export default function Home() {
   },
   {
     id: 3,
-    image: '../../public/student-2.png', // Replace with a different image
+    image: '../../../student-2.png', // Replace with a different image
     quote: "Switching careers felt daunting, but the AI in Data Analytics course gave me the confidence and skills to succeed.",
     name: 'Priya M.',
     title: 'Data Analyst',
