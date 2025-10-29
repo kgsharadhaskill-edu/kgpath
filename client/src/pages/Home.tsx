@@ -84,13 +84,13 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <HeroSection heroImg={heroImg} testimonials={testimonialData}  />
-      <AboutSection />
-      <CoursesSection courses={coursesData} />
+      <CoursesSection/>
       <WhyChooseUsSection features={features} />
       <StatsSection stats={stats} />
       <HowItWorksSection steps={steps} />
       <TestimonialsSection testimonials={testimonials} />
       <HiringPartnersSection companies={companies} />
+      <AboutSection />
       <CtaSection />
     </div>
   );

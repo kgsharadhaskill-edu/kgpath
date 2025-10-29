@@ -1,3 +1,5 @@
+// src/pages/CourseDetail.tsx
+
 import { useRoute, Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,14 +13,13 @@ import {
 import { 
   Clock, 
   CheckCircle2, 
-  Download,
   Calendar,
   Users,
   Award,
-  DollarSign,
-  ArrowRight
+  ArrowRight,
 } from 'lucide-react';
 import { getCourseBySlug, coursesData } from '@/lib/courses-data';
+import { CourseHeroForm } from './CourseHero'; // Import the new component
 
 export default function CourseDetail() {
   const [, params] = useRoute('/courses/:slug');
@@ -38,59 +39,34 @@ export default function CourseDetail() {
 
   const relatedCourses = coursesData.filter(c => c.id !== course.id).slice(0, 2);
 
+  // Mocked data as requested by the user prompt
+  const courseWithNewData = {
+    ...course,
+    keyHighlights: course.keyHighlights || [
+      '5-month Core Foundation of Data Science',
+      '3-month Specialization : AI/ML or Data Engineering',
+      '180+ live hours in total of Expert-led sessions',
+    ],
+    skills: course.skills || ['Python', 'SQL', 'Machine Learning', 'Data Visualization', 'Big Data', 'Tableau', 'Deep Learning', 'Statistics'],
+    specializations: course.specializations || ['AI/ML', 'Data Engineering'],
+    formImage: course.formImage || 'https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Placeholder image for the form header
+  };
+
   return (
-    <div className="flex flex-col">
-      <section 
-        className="relative min-h-[40vh] flex items-center overflow-hidden"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${course.image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-20 w-full">
-          <div className="flex items-center gap-2 mb-4 text-sm text-gray-300">
-            <Link href="/courses">
-              <a className="hover:text-white transition-colors" data-testid="link-breadcrumb-courses">Courses</a>
-            </Link>
-            <span>/</span>
-            <span data-testid="text-breadcrumb-course-title">{course.title}</span>
-          </div>
-          <div className="flex items-center gap-2 mb-4">
-            <Badge className="bg-white/20 text-white border-white/30">{course.level}</Badge>
-            <Badge className="bg-white/20 text-white border-white/30">
-              <Clock className="h-3 w-3 mr-1" />
-              {course.duration}
-            </Badge>
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 max-w-4xl">
-            {course.title}
-          </h1>
-          <p className="text-lg md:text-xl text-gray-200 max-w-3xl">
-            {course.shortDescription}
-          </p>
-        </div>
-      </section>
-
-      <div className="sticky top-16 z-40 bg-background/95 backdrop-blur-md border-b shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-3">
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">Course Fee:</span>
-              <span className="text-2xl font-bold text-primary">{course.feeStructure.amount}</span>
-              {course.feeStructure.emiAvailable && (
-                <Badge variant="outline" className="text-xs">EMI Available</Badge>
-              )}
-            </div>
-            <Link href="/contact">
-              <Button size="lg" data-testid="button-enroll-sticky">
-                Enroll Now
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-
+    <div className="flex flex-col bg-background">
+      {/* --- Use the new Hero Section Component --- */}
+      <CourseHeroForm 
+        title={courseWithNewData.title}
+        shortDescription={courseWithNewData.shortDescription}
+        level={courseWithNewData.level}
+        duration={courseWithNewData.duration}
+        skills={courseWithNewData.skills}
+        keyHighlights={courseWithNewData.keyHighlights}
+        specializations={courseWithNewData.specializations}
+        formImage={courseWithNewData.formImage}
+        heroImage={course.image}
+      />
+      {/* --- Main Content Section --- */}
       <section className="py-12 md:py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
@@ -98,14 +74,14 @@ export default function CourseDetail() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Course Overview</h2>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  {course.overview}
+                  {courseWithNewData.overview}
                 </p>
               </div>
 
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-6">What You'll Learn</h2>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">Key Learning Outcomes</h2>
                 <div className="grid md:grid-cols-2 gap-4">
-                  {course.learningOutcomes.map((outcome, idx) => (
+                  {courseWithNewData.learningOutcomes.map((outcome, idx) => (
                     <div key={idx} className="flex items-start gap-3" data-testid={`outcome-${idx}`}>
                       <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{outcome}</span>
@@ -117,18 +93,13 @@ export default function CourseDetail() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Course Curriculum</h2>
                 <Accordion type="single" collapsible className="w-full">
-                  {course.curriculum.map((module, idx) => (
+                  {courseWithNewData.curriculum.map((module, idx) => (
                     <AccordionItem key={idx} value={`item-${idx}`} data-testid={`curriculum-module-${idx}`}>
-                      <AccordionTrigger className="text-left">
-                        <span className="font-semibold">{module.module}</span>
-                      </AccordionTrigger>
+                      <AccordionTrigger className="text-left font-semibold">{module.module}</AccordionTrigger>
                       <AccordionContent>
-                        <ul className="space-y-2 pl-6">
+                        <ul className="space-y-2 pl-6 list-disc list-outside marker:text-primary">
                           {module.topics.map((topic, topicIdx) => (
-                            <li key={topicIdx} className="flex items-start gap-2 text-muted-foreground">
-                              <span className="text-primary mt-1.5">•</span>
-                              <span>{topic}</span>
-                            </li>
+                            <li key={topicIdx} className="text-muted-foreground">{topic}</li>
                           ))}
                         </ul>
                       </AccordionContent>
@@ -140,7 +111,7 @@ export default function CourseDetail() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Prerequisites</h2>
                 <ul className="space-y-3">
-                  {course.prerequisites.map((prereq, idx) => (
+                  {courseWithNewData.prerequisites.map((prereq, idx) => (
                     <li key={idx} className="flex items-start gap-3">
                       <CheckCircle2 className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                       <span className="text-muted-foreground">{prereq}</span>
@@ -152,33 +123,36 @@ export default function CourseDetail() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Tools & Technologies</h2>
                 <div className="flex flex-wrap gap-3">
-                  {course.tools.map((tool, idx) => (
-                    <Badge key={idx} variant="secondary" className="text-sm px-4 py-2">
-                      {tool}
-                    </Badge>
+                  {courseWithNewData.tools.map((tool, idx) => (
+                    <Badge key={idx} variant="secondary" className="text-sm px-4 py-2">{tool}</Badge>
                   ))}
                 </div>
+              </div>
+              
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">Certification</h2>
+                <Card>
+                  <CardContent className="p-6">
+                    <p className="text-muted-foreground leading-relaxed">{courseWithNewData.certification}</p>
+                  </CardContent>
+                </Card>
               </div>
 
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Meet Your Instructor</h2>
                 <Card className="hover-elevate">
                   <CardContent className="p-6">
-                    <div className="flex flex-col md:flex-row gap-6">
+                    <div className="flex flex-col md:flex-row gap-6 items-center">
                       <img 
-                        src={course.instructor.photo} 
-                        alt={course.instructor.name}
+                        src={courseWithNewData.instructor.photo} 
+                        alt={courseWithNewData.instructor.name}
                         className="w-32 h-32 rounded-full object-cover"
                       />
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold mb-2">{course.instructor.name}</h3>
-                        <p className="text-primary font-medium mb-3">{course.instructor.title}</p>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          <strong>Credentials:</strong> {course.instructor.credentials}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          <strong>Experience:</strong> {course.instructor.experience}
-                        </p>
+                        <h3 className="text-2xl font-bold mb-2">{courseWithNewData.instructor.name}</h3>
+                        <p className="text-primary font-medium mb-3">{courseWithNewData.instructor.title}</p>
+                        <p className="text-sm text-muted-foreground mb-2"><strong>Credentials:</strong> {courseWithNewData.instructor.credentials}</p>
+                        <p className="text-sm text-muted-foreground"><strong>Experience:</strong> {courseWithNewData.instructor.experience}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -188,55 +162,41 @@ export default function CourseDetail() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Frequently Asked Questions</h2>
                 <Accordion type="single" collapsible className="w-full">
-                  {course.faqs.map((faq, idx) => (
+                  {courseWithNewData.faqs.map((faq, idx) => (
                     <AccordionItem key={idx} value={`faq-${idx}`} data-testid={`faq-${idx}`}>
-                      <AccordionTrigger className="text-left">
-                        {faq.question}
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <p className="text-muted-foreground">{faq.answer}</p>
-                      </AccordionContent>
+                      <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+                      <AccordionContent><p className="text-muted-foreground">{faq.answer}</p></AccordionContent>
                     </AccordionItem>
                   ))}
                 </Accordion>
               </div>
             </div>
 
+            {/* --- Right Sidebar --- */}
             <div className="lg:col-span-1">
-              <div className="sticky top-32 space-y-6">
+              <div className="sticky top-24 space-y-6">
                 <Card>
-                  <CardContent className="p-6 space-y-4">
-                    <h3 className="text-xl font-bold">Course Information</h3>
-                    
-                    <div className="flex items-center gap-3 py-3 border-b">
+                  <CardContent className="p-6 space-y-2">
+                    <h3 className="text-xl font-bold mb-2">Course Information</h3>
+                    <div className="flex items-center gap-3 py-2">
                       <Clock className="h-5 w-5 text-primary" />
                       <div>
                         <div className="text-sm text-muted-foreground">Duration</div>
-                        <div className="font-semibold">{course.duration}</div>
+                        <div className="font-semibold">{courseWithNewData.duration}</div>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-3 py-3 border-b">
+                    <div className="flex items-center gap-3 py-2">
                       <Users className="h-5 w-5 text-primary" />
                       <div>
                         <div className="text-sm text-muted-foreground">Level</div>
-                        <div className="font-semibold">{course.level}</div>
+                        <div className="font-semibold">{courseWithNewData.level}</div>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-3 py-3 border-b">
+                    <div className="flex items-center gap-3 py-2">
                       <Award className="h-5 w-5 text-primary" />
                       <div>
                         <div className="text-sm text-muted-foreground">Certification</div>
                         <div className="font-semibold text-sm">Industry Recognized</div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-3">
-                      <DollarSign className="h-5 w-5 text-primary" />
-                      <div>
-                        <div className="text-sm text-muted-foreground">Fee</div>
-                        <div className="font-semibold text-lg text-primary">{course.feeStructure.amount}</div>
                       </div>
                     </div>
                   </CardContent>
@@ -245,9 +205,9 @@ export default function CourseDetail() {
                 <Card>
                   <CardContent className="p-6 space-y-4">
                     <h3 className="text-xl font-bold">Upcoming Batches</h3>
-                    {course.upcomingBatches.map((batch, idx) => (
-                      <div key={idx} className="py-3 border-b last:border-0" data-testid={`batch-${idx}`}>
-                        <div className="flex items-start gap-3 mb-2">
+                    {courseWithNewData.upcomingBatches.map((batch, idx) => (
+                      <div key={idx} className="py-2 border-b last:border-0" data-testid={`batch-${idx}`}>
+                        <div className="flex items-start gap-3">
                           <Calendar className="h-5 w-5 text-primary mt-0.5" />
                           <div>
                             <div className="font-semibold">{batch.startDate}</div>
@@ -259,52 +219,15 @@ export default function CourseDetail() {
                     ))}
                   </CardContent>
                 </Card>
-
-                <Card className="bg-gradient-to-br from-primary to-purple-600 text-white border-0">
-                  <CardContent className="p-6 space-y-4">
-                    <h3 className="text-xl font-bold">Fee Structure</h3>
-                    <div className="text-3xl font-bold">{course.feeStructure.amount}</div>
-                    {course.feeStructure.emiAvailable && (
-                      <p className="text-sm opacity-90">
-                        {course.feeStructure.emiDetails}
-                      </p>
-                    )}
-                    <div className="space-y-2 pt-2">
-                      <Link href="/contact">
-                        <Button variant="secondary" className="w-full" size="lg" data-testid="button-enroll-sidebar">
-                          Enroll Now
-                        </Button>
-                      </Link>
-                      <Link href="/contact">
-                        <Button 
-                          variant="outline" 
-                          className="w-full bg-white/10 border-white/30 text-white hover:bg-white/20"
-                          data-testid="button-download-brochure-sidebar"
-                        >
-                          <Download className="h-4 w-4 mr-2" />
-                          Download Brochure
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-bold mb-4">Certification</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {course.certification}
-                    </p>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* --- Related Courses Section --- */}
       {relatedCourses.length > 0 && (
-        <section className="py-16 md:py-20 bg-card">
+        <section className="py-16 md:py-20 bg-muted/30">
           <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <h2 className="text-2xl md:text-3xl font-bold mb-8">Related Courses</h2>
             <div className="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -321,18 +244,14 @@ export default function CourseDetail() {
                     <div className="flex items-center gap-2 mb-3">
                       <Badge variant="secondary" className="text-xs">{relatedCourse.level}</Badge>
                       <Badge variant="outline" className="text-xs">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {relatedCourse.duration}
+                        <Clock className="h-3 w-3 mr-1" />{relatedCourse.duration}
                       </Badge>
                     </div>
                     <h3 className="text-xl font-semibold mb-2">{relatedCourse.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                      {relatedCourse.shortDescription}
-                    </p>
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{relatedCourse.shortDescription}</p>
                     <Link href={`/courses/${relatedCourse.slug}`}>
                       <Button className="w-full" data-testid={`button-related-${relatedCourse.slug}`}>
-                        View Details
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        View Details <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </Link>
                   </CardContent>

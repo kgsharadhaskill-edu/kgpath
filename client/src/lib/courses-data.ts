@@ -5,6 +5,10 @@ import instructorMaleImg from '@assets/generated_images/Instructor_profile_photo
 import instructorFemaleImg from '@assets/generated_images/Female_instructor_photo_21be1cc7.png';
 
 export interface Course {
+  keyHighlights: string[];
+  skills: string[];
+  specializations: string[];
+  formImage: string;
   id: string;
   title: string;
   slug: string;
@@ -126,7 +130,11 @@ export const coursesData: Course[] = [
         question: 'What is the class format?',
         answer: 'Live online classes with recorded sessions, hands-on projects, weekly assignments, and 1-on-1 mentorship sessions.'
       }
-    ]
+    ],
+    keyHighlights: [],
+    skills: [],
+    specializations: [],
+    formImage: ''
   },
   {
     id: '2',
@@ -212,7 +220,11 @@ export const coursesData: Course[] = [
         question: 'Do you provide interview preparation?',
         answer: 'Yes, comprehensive interview prep including mock interviews, coding challenges, system design, and direct referrals to top companies.'
       }
-    ]
+    ],
+    keyHighlights: [],
+    skills: [],
+    specializations: [],
+    formImage: ''
   },
   {
     id: '3',
@@ -298,7 +310,11 @@ export const coursesData: Course[] = [
         question: 'Are the tools provided in the course?',
         answer: 'Yes, all software tools and cloud credits are provided. You will get free access to Tableau, Power BI educational licenses, and cloud platforms.'
       }
-    ]
+    ],
+    keyHighlights: [],
+    skills: [],
+    specializations: [],
+    formImage: ''
   }
 ];
 
