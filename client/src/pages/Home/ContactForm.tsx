@@ -1,0 +1,171 @@
+// src/components/ContactForm.tsx
+
+import React, { useState } from 'react';
+
+interface FormData {
+  name: string;
+  mobile: string;
+  education: string;
+  course: string;
+}
+
+interface ContactFormProps {
+  onClose: () => void;
+}
+
+const ContactForm = ({ onClose }: ContactFormProps) => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    mobile: '',
+    education: '',
+    course: '',
+  });
+
+  const courses = [
+    'Full-Stack Web Development',
+    'Data Science & Machine Learning',
+    'Cloud Computing & DevOps',
+    'Digital Marketing',
+    'Cybersecurity',
+    'UX/UI Design',
+  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Form Submitted:', formData);
+    alert('Thank you for your submission! We will be in touch shortly.');
+    onClose();
+
+    setFormData({
+      name: '',
+      mobile: '',
+      education: '',
+      course: '',
+    });
+  };
+
+  return (
+    // Added max-w-6xl for better layout on large screens
+    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+      <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
+        <div className="flex flex-col md:flex-row">
+          {/* === LEFT SIDE (Updated for large screen alignment) === */}
+          <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 lg:p-16 bg-gray-50 flex flex-col justify-center">
+            <div>
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
+                Enroll in Your Future
+              </h2>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6">
+                Take the next step in your career by joining one of our industry-leading courses. Fill
+                out the form to get in touch with our admissions team.
+              </p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600">
+                We provide hands-on training, expert instructors, and a vibrant community to help you
+                succeed. Let's build something great together.
+              </p>
+            </div>
+          </div>
+
+          {/* === RIGHT SIDE (Updated for large screen consistency) === */}
+          <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 lg:p-12 bg-white">
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-4 sm:space-y-5 md:space-y-6">
+                {/* Name */}
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base sm:py-2.5 lg:py-3"
+                  />
+                </div>
+
+                {/* Mobile */}
+                <div>
+                  <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base sm:py-2.5 lg:py-3"
+                  />
+                </div>
+
+                {/* Education */}
+                <div>
+                  <label htmlFor="education" className="block text-sm font-medium text-gray-700">
+                    Highest Education Qualification
+                  </label>
+                  <input
+                    type="text"
+                    id="education"
+                    name="education"
+                    value={formData.education}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base sm:py-2.5 lg:py-3"
+                  />
+                </div>
+
+                {/* Course Dropdown */}
+                <div>
+                  <label htmlFor="course" className="block text-sm font-medium text-gray-700">
+                    Select Course
+                  </label>
+                  <select
+                    id="course"
+                    name="course"
+                    value={formData.course}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md sm:text-base sm:py-2.5 lg:py-3"
+                  >
+                    <option value="" disabled>
+                      Please select a course
+                    </option>
+                    {courses.map((course, index) => (
+                      <option key={index} value={course}>
+                        {course}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Submit Button */}
+                <div>
+                  <button
+                    type="submit"
+                    className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-300 sm:text-base sm:py-3"
+                  >
+                    Request a Callback
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactForm;
