@@ -1,0 +1,9 @@
+export { default as AboutSection } from './AboutSection';
+export { default as CoursesSection } from './CoursesSection';
+export { default as CtaSection } from './CtaSection';
+export { default as HeroSection } from './HeroSection';
+export { default as HiringPartnersSection } from './HiringPartnersSection';
+export { default as HowItWorksSection } from './HowItWorksSection';
+export { default as StatsSection } from './StatsSection';
+export { default as TestimonialsSection } from './TestimonialsSection';
+export { default as WhyChooseUsSection } from './WhyChooseUsSection';
