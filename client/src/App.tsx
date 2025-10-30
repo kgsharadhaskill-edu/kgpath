@@ -11,7 +11,6 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Courses from "@/pages/Courses";
 import CourseDetail from "@/pages/CourseDetail";
-import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 import ScrollToTop from "@/ScrollToTop";
 
@@ -19,6 +18,7 @@ import ScrollToTop from "@/ScrollToTop";
 import BlogPage from "@/pages/Blog/BlogPage"; // Assuming you place them in the pages directory
 import BlogDetailsPage from "@/pages/Blog/BlogDetailsPage";
 import PlacementPage from "@/pages/Placement";
+import ContactPage from "./pages/Contact";
 
 function Router(): JSX.Element {
   return (
@@ -28,7 +28,7 @@ function Router(): JSX.Element {
       <Route path="/courses" component={Courses} />
       <Route path="/courses/:slug" component={CourseDetail} />
       <Route path="/placement" component={PlacementPage} />
-      <Route path="/contact" component={Contact} />
+      <Route path="/contact" component={ContactPage} />
 
       {/* --- Step 2: Add the routes for the blog --- */}
       <Route path="/blog" component={BlogPage} />
