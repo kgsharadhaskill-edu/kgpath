@@ -7,6 +7,7 @@ interface FormData {
   mobile: string;
   education: string;
   course: string;
+  dob: string;
 }
 
 interface ContactFormProps {
@@ -19,6 +20,7 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
     mobile: '',
     education: '',
     course: '',
+    dob: '',
   });
 
   const courses = [
@@ -49,15 +51,15 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
       mobile: '',
       education: '',
       course: '',
+      dob: '',
     });
   };
 
   return (
-    // Added max-w-6xl for better layout on large screens
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
       <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-xl shadow-2xl overflow-hidden">
         <div className="flex flex-col md:flex-row">
-          {/* === LEFT SIDE (Updated for large screen alignment) === */}
+
           <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 lg:p-16 bg-gray-50 flex flex-col justify-center">
             <div>
               <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -74,11 +76,10 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
             </div>
           </div>
 
-          {/* === RIGHT SIDE (Updated for large screen consistency) === */}
           <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 lg:p-12 bg-white">
             <form onSubmit={handleSubmit}>
               <div className="space-y-4 sm:space-y-5 md:space-y-6">
-                {/* Name */}
+
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                     Full Name
@@ -94,7 +95,6 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
                   />
                 </div>
 
-                {/* Mobile */}
                 <div>
                   <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
                     Mobile Number
@@ -110,7 +110,22 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
                   />
                 </div>
 
-                {/* Education */}
+                {/* DOB Calendar */}
+                <div>
+                  <label htmlFor="dob" className="block text-sm font-medium text-gray-700">
+                    Date of Birth
+                  </label>
+                  <input
+                    type="date"
+                    id="dob"
+                    name="dob"
+                    value={formData.dob}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base sm:py-2.5 lg:py-3"
+                  />
+                </div>
+
                 <div>
                   <label htmlFor="education" className="block text-sm font-medium text-gray-700">
                     Highest Education Qualification
@@ -126,7 +141,6 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
                   />
                 </div>
 
-                {/* Course Dropdown */}
                 <div>
                   <label htmlFor="course" className="block text-sm font-medium text-gray-700">
                     Select Course
@@ -139,18 +153,13 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
                     required
                     className="mt-1 block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md sm:text-base sm:py-2.5 lg:py-3"
                   >
-                    <option value="" disabled>
-                      Please select a course
-                    </option>
+                    <option value="" disabled>Please select a course</option>
                     {courses.map((course, index) => (
-                      <option key={index} value={course}>
-                        {course}
-                      </option>
+                      <option key={index} value={course}>{course}</option>
                     ))}
                   </select>
                 </div>
 
-                {/* Submit Button */}
                 <div>
                   <button
                     type="submit"
