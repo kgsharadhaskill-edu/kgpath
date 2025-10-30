@@ -14,7 +14,11 @@ import CourseDetail from "@/pages/CourseDetail";
 import Placement from "@/pages/Placement";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
-import ScrollToTop from "@/ScrollToTop"; // <-- 1. Import the new component
+import ScrollToTop from "@/ScrollToTop";
+
+// --- Step 1: Import the new blog pages ---
+import BlogPage from "@/pages/Blog/BlogPage"; // Assuming you place them in the pages directory
+import BlogDetailsPage from "@/pages/Blog/BlogDetailsPage";
 
 function Router(): JSX.Element {
   return (
@@ -25,6 +29,12 @@ function Router(): JSX.Element {
       <Route path="/courses/:slug" component={CourseDetail} />
       <Route path="/placement" component={Placement} />
       <Route path="/contact" component={Contact} />
+
+      {/* --- Step 2: Add the routes for the blog --- */}
+      <Route path="/blog" component={BlogPage} />
+      <Route path="/blog/:slug" component={BlogDetailsPage} />
+      
+      {/* This should always be the last route */}
       <Route component={NotFound} />
     </Switch>
   );
@@ -37,7 +47,6 @@ function App(): JSX.Element {
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-1">
-            {/* 2. Wrap the Router component */}
             <ScrollToTop>
               <Router />
             </ScrollToTop>
