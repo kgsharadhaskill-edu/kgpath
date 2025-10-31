@@ -1,10 +1,10 @@
 import React from 'react';
 import MultiModalContact from '../pages/Contact/MultiModalContact';
-import LiveStatusDashboard from '../pages/Contact/LiveStatusDashboard';
 import BookingCalendar from '../pages/Contact/BookingCalendar';
 import LocationSelector from '../pages/Contact/LocationSelector';
 import SuccessStories from '../pages/Contact/SuccessStories';
 import InteractiveFAQ from '../pages/Contact/InteractiveFAQ';
+import CounselorContactList from '../pages/Contact/CounselorContactList';
 
 const ContactPage = () => {
     return (
@@ -30,7 +30,7 @@ const ContactPage = () => {
 
                     {/* Sidebar */}
                     <aside className="lg:col-span-1 space-y-12">
-                        <LiveStatusDashboard />
+                        <CounselorContactList />    
                         <SuccessStories />
                     </aside>
                 </div>

@@ -20,7 +20,7 @@ import recruiterImg from '../../../../attached_assets/recruiter-image.png';
 
 
 export const placementStats = [
-  { icon: TrendingUp, label: 'Placement Success', value: '95%', color: 'text-green-600' },
+  { icon: TrendingUp, label: 'Placement Success', value: '100%', color: 'text-green-600' },
   { icon: DollarSign, label: 'Average Package', value: '₹8.5 LPA', color: 'text-blue-600' },
   { icon: Award, label: 'Highest Package', value: '₹24 LPA', color: 'text-purple-600' },
   { icon: Building2, label: 'Hiring Partners', value: '200+', color: 'text-orange-600' }

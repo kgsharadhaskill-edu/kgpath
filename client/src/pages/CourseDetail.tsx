@@ -1,4 +1,3 @@
-// src/pages/CourseDetail.tsx
 
 import { useRoute, Link } from 'wouter';
 import { Button } from '@/components/ui/button';

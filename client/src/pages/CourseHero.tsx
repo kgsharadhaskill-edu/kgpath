@@ -86,16 +86,6 @@ export const CourseHeroForm = ({
             <p className="text-lg text-gray-200 max-w-2xl">
               {shortDescription}
             </p>
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Skills You'll Gain</h3>
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill, idx) => (
-                  <Badge key={idx} variant="secondary" className="text-sm px-3 py-1 bg-white/20 text-white">
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Right Column: Form Card */}

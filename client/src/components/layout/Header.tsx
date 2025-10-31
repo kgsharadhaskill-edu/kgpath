@@ -1,6 +1,6 @@
 // src/components/layout/Header.tsx
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import logo from '../../../../attached_assets/Frame 6.png';
@@ -15,10 +15,10 @@ import {
   Code,
   DollarSign
 } from 'lucide-react';
-import React from 'react';
 import GooeyNav from './GooeyNav';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// ... (megaMenuData and other constants are unchanged)
 const megaMenuData = [
   {
     category: 'Postgraduate Programs',
@@ -38,7 +38,9 @@ const megaMenuData = [
   }
 ];
 
+
 export function Header() {
+  // ... (all your state and useEffect hooks are unchanged and correct)
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProgramMenuOpen, setIsProgramMenuOpen] = useState(false);
@@ -91,57 +93,60 @@ export function Header() {
 
   const toggleMobileSection = (key: string) => setOpenMobileSections(prev => ({ ...prev, [key]: !prev[key] }));
 
+
   return (
     <React.Fragment>
       <header className="sticky top-0 z-50 w-full transition-all duration-300 bg-background/80 backdrop-blur-sm border-b">
         <div className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20 lg:h-24">
 
-            {/* --- LEFT & MIDDLE GROUP WRAPPER (Desktop) --- */}
             <div className="hidden lg:flex items-center gap-6">
-              <Link href="/" data-testid="link-home-logo">
-                <a className="flex items-center">
-                  <img src={logo} alt="KGPath Logo" className="h-12 w-auto object-contain" />
-                </a>
+              {/* FIX 1: Removed the inner <a> tag here */}
+              <Link href="/" data-testid="link-home-logo" className="flex items-center">
+                <img src={logo} alt="KGPath Logo" className="h-12 w-auto object-contain" />
               </Link>
               <div className="relative" ref={programMenuRef}>
                 <Button size="lg" onClick={() => setIsProgramMenuOpen(prev => !prev)}>
                   Program <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${isProgramMenuOpen ? 'rotate-180' : ''}`} />
                 </Button>
               </div>
-              {/* This is the GooeyNav, now part of the same flex group */}
               <GooeyNav items={navItems} />
             </div>
 
-            {/* --- LOGO FOR MOBILE/TABLET --- */}
             <div className="lg:hidden">
-              <Link href="/" data-testid="link-home-logo">
-                <a className="flex items-center">
-                  <img src={logo} alt="KGPath Logo" className="h-12 w-auto object-contain" />
-                </a>
+              {/* FIX 2: Removed the inner <a> tag here */}
+              <Link href="/" data-testid="link-home-logo-mobile" className="flex items-center">
+                <img src={logo} alt="KGPath Logo" className="h-12 w-auto object-contain" />
               </Link>
             </div>
 
-            {/* --- RIGHT GROUP (Desktop) --- */}
             <div className="hidden lg:flex items-center">
               <Button size="lg" onClick={openModal}>Enroll Now</Button>
             </div>
 
-            {/* --- MOBILE MENU TOGGLE --- */}
             <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden p-2">
               <Menu className="h-6 w-6" /><span className="sr-only">Toggle Menu</span>
             </button>
           </div>
         </div>
 
-        {/* --- DESKTOP MEGA MENU (Unchanged) --- */}
         {isProgramMenuOpen && (
           <>
             <div onClick={() => setIsProgramMenuOpen(false)} className="fixed inset-0 top-20 lg:top-24 z-40 bg-black/60 backdrop-blur-sm"></div>
             <div className="absolute top-full left-0 right-0 z-50">
               <div className="max-w-7xl mx-auto p-4">
-                <div className="bg-background rounded-lg shadow-2 xl border overflow-hidden">
-                  <div className="flex"><div className="w-1/3 border-r">{megaMenuData.map((cat) => (<button key={cat.category} onMouseEnter={() => { setActiveCategory(cat.category); setActiveSubCategory(cat.subCategories[0].name); }} className={`w-full text-left p-4 hover:bg-muted transition-colors ${activeCategory === cat.category ? 'bg-muted' : ''}`} ><p className="font-semibold">{cat.category}</p><p className="text-sm text-foreground/60">{cat.description}</p></button>))}</div><div className="w-1/3 border-r">{currentCategory.subCategories.map((subCat) => { const Icon = subCat.icon; return (<button key={subCat.name} onMouseEnter={() => setActiveSubCategory(subCat.name)} className={`w-full flex items-center justify-between text-left p-4 hover:bg-muted transition-colors ${activeSubCategory === subCat.name ? 'bg-muted' : ''}`} ><span className="flex items-center gap-3 font-medium"><Icon className="h-5 w-5 text-primary" />{subCat.name}</span><ChevronRight className="h-4 w-4" /></button>); })}</div><div className="w-1/3 p-2">{currentSubCategory.courses.map((course) => (<Link key={course.title} href={course.href}><a className="block p-3 hover:bg-muted rounded-md transition-colors" onClick={() => setIsProgramMenuOpen(false)} ><p className="font-semibold">{course.title}</p><p className="text-sm text-foreground/60">{course.details}</p></a></Link>))}</div></div>
+                <div className="bg-background rounded-lg shadow-2xl border overflow-hidden">
+                  <div className="flex">
+                    <div className="w-1/3 border-r">{megaMenuData.map((cat) => (<button key={cat.category} onMouseEnter={() => { setActiveCategory(cat.category); setActiveSubCategory(cat.subCategories[0].name); }} className={`w-full text-left p-4 hover:bg-muted transition-colors ${activeCategory === cat.category ? 'bg-muted' : ''}`} ><p className="font-semibold">{cat.category}</p><p className="text-sm text-foreground/60">{cat.description}</p></button>))}</div>
+                    <div className="w-1/3 border-r">{currentCategory.subCategories.map((subCat) => { const Icon = subCat.icon; return (<button key={subCat.name} onMouseEnter={() => setActiveSubCategory(subCat.name)} className={`w-full flex items-center justify-between text-left p-4 hover:bg-muted transition-colors ${activeSubCategory === subCat.name ? 'bg-muted' : ''}`} ><span className="flex items-center gap-3 font-medium"><Icon className="h-5 w-5 text-primary" />{subCat.name}</span><ChevronRight className="h-4 w-4" /></button>); })}</div>
+                    <div className="w-1/3 p-2">{currentSubCategory.courses.map((course) => (
+                      // FIX 3: Removed the inner <a> tag here
+                      <Link key={course.title} href={course.href} className="block p-3 hover:bg-muted rounded-md transition-colors" onClick={() => setIsProgramMenuOpen(false)}>
+                        <p className="font-semibold">{course.title}</p>
+                        <p className="text-sm text-foreground/60">{course.details}</p>
+                      </Link>
+                    ))}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -149,7 +154,6 @@ export function Header() {
         )}
       </header>
 
-      {/* --- MOBILE MENU (Unchanged, already correct) --- */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} className="fixed inset-0 z-[100] bg-background lg:hidden">
@@ -160,7 +164,12 @@ export function Header() {
               </div>
               <nav className="flex-1 overflow-y-auto p-4">
                 <div className="flex flex-col gap-1">
-                  {navItems.map((link) => (<Link key={link.href} href={link.href}><a className={`block px-4 py-3 rounded-md text-base font-medium transition-colors ${isActive(link.href) ? 'bg-primary/10 text-primary' : 'text-foreground/80 hover:bg-muted'}`}>{link.label}</a></Link>))}
+                  {navItems.map((link) => (
+                    // FIX 4: Removed the inner <a> tag here
+                    <Link key={link.href} href={link.href} className={`block px-4 py-3 rounded-md text-base font-medium transition-colors ${isActive(link.href) ? 'bg-primary/10 text-primary' : 'text-foreground/80 hover:bg-muted'}`}>
+                      {link.label}
+                    </Link>
+                  ))}
                   <div className="my-2 border-t"></div>
                   <div>
                     <button onClick={() => toggleMobileSection('program')} className="flex justify-between items-center w-full px-4 py-3 rounded-md text-base font-medium hover:bg-muted">
@@ -172,10 +181,12 @@ export function Header() {
                      </button>{openMobileSections[cat.category] && (<div className="pl-4 border-l ml-3 my-1">{cat.subCategories.map(subCat => (<div key={subCat.name}><button onClick={() => toggleMobileSection(subCat.name)} 
                      className="flex justify-between items-center w-full py-2 pl-2 text-foreground/80 hover:text-foreground">
                       <span>{subCat.name}</span><ChevronDown className={`h-4 w-4 transition-transform ${openMobileSections[subCat.name] ? 'rotate-180' : ''}`} /></button>{openMobileSections[subCat.name] && (<div className="pl-4 border-l ml-3 my-1">
-                        {subCat.courses.map(course => (<Link key={course.href} href={course.href}>
-                        <a className="block py-2 pl-2 text-foreground/70 hover:text-primary">
-                        {course.title}</a></Link>
-                      ))}
+                        {subCat.courses.map(course => (
+                          // FIX 5: Removed the inner <a> tag here
+                          <Link key={course.href} href={course.href} className="block py-2 pl-2 text-foreground/70 hover:text-primary">
+                            {course.title}
+                          </Link>
+                        ))}
                       </div>
                     )}
                     </div>
@@ -197,7 +208,6 @@ export function Header() {
         )}
       </AnimatePresence>
 
-      {/* --- CONTACT FORM MODAL (Unchanged) --- */}
       {isModalOpen && (<div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={closeModal}><div className="max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}><div className="relative"><ContactForm onClose={closeModal} /><button onClick={closeModal} className="absolute top-2 right-2 md:top-2 md:right-2 p-2 rounded-full bg-gray-200/50 hover:bg-gray-300/80" aria-label="Close form"><X className="h-5 w-5 text-gray-800" /></button></div></div></div>)}
     </React.Fragment>
   );

@@ -58,12 +58,6 @@ function App(): JSX.Element {
           <Footer />
         </div>
         <Toaster />
-
-        {/* 
-          This is the correct placement for a persistent, floating component.
-          It will now work without blocking clicks on the page because the
-          fix is applied inside the ChatBot component's styling.
-        */}
         <ChatBot />
 
       </TooltipProvider>

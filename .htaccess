@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Set the base directory for the rules
+  RewriteBase /KGPathEducation/
+
+  # --- API Rule ---
+  # Do not apply the following rules to the 'api' folder
+  RewriteRule ^api/ - [L]
+
+  # --- Frontend Rules ---
+  # If the requested resource is NOT a file
+  RewriteCond %{REQUEST_FILENAME} !-f
+  # AND it's NOT a directory
+  RewriteCond %{REQUEST_FILENAME} !-d
+  # THEN redirect the request to the main index.html file
+  RewriteRule . /KGPathEducation/index.html [L]
+</IfModule>
