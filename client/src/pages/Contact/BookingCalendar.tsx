@@ -46,7 +46,8 @@ const BookingCalendar = () => {
         setResponseMessage('');
         const formattedDate = selectedDate.toISOString().split('T')[0];
         try {
-            const response = await fetch('/api/create-booking.php', {
+            const API_URL = import.meta.env.VITE_API_URL;
+            const response = await fetch(`${API_URL}create-booking.php`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

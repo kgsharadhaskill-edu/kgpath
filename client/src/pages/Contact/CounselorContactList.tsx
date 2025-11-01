@@ -23,7 +23,8 @@ const CounselorContactList = () => {
     // 3. Apply the type to the function parameter (This directly fixes the error)
     // Now, TypeScript knows that `counselor` will have `id`, `name`, and `phone` properties.
     const handleCallClick = async (counselor: Counselor) => {
-        const apiEndpoint = '/api/track-call.php';
+        const API_URL = import.meta.env.VITE_API_URL;
+        const apiEndpoint = `${API_URL}track-call.php`;
 
         const trackingData = {
             counselorId: counselor.id,

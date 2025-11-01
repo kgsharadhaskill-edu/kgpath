@@ -52,8 +52,9 @@ const ContactForm = ({ onClose }: ContactFormProps) => {
     setSubmitError(null);
 
     try {
+      const API_URL = import.meta.env.VITE_API_URL;
       // Change this URL to your PHP script's location
-      const response = await fetch('/api/submit-form.php', {
+      const response = await fetch(`${API_URL}submit-form.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

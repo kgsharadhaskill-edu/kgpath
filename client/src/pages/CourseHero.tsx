@@ -67,7 +67,8 @@ export const CourseHeroForm = ({
     setIsSubmitted(false);
 
     try {
-      const response = await fetch('/api/brochure-request.php', {
+      const API_URL = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${API_URL}brochure-request.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

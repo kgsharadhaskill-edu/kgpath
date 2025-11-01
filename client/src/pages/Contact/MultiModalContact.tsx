@@ -33,7 +33,8 @@ const MultiModalContact = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch('/api/contact-methods.php')
+        const API_URL = import.meta.env.VITE_API_URL;
+        fetch(`${API_URL}contact-methods.php`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

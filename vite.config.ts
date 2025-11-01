@@ -21,11 +21,5 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
-    proxy: {
-  '/api': {
-    target: 'http://localhost/KGPathEducation',
-    changeOrigin: true,
-  }
-},
   },
 });
