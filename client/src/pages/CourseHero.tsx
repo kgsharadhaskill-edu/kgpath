@@ -1,5 +1,4 @@
-// src/components/course/CourseHeroForm.tsx
-
+import { useState, FormEvent } from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -12,9 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock, Download, Gem } from 'lucide-react';
+import { Clock, Download, Gem, Loader2 } from 'lucide-react';
 
-// Define the props interface for type safety
 interface CourseHeroFormProps {
   title: string;
   shortDescription: string;
@@ -24,14 +22,13 @@ interface CourseHeroFormProps {
   keyHighlights: string[];
   specializations: string[];
   formImage: string;
-  heroImage: string; // <-- 1. Add prop to accept the background image
+  heroImage: string;
 }
 
-// Helper component for the country code input
-const CountryCodeInput = () => (
+const CountryCodeInput = ({ value, onChange }: { value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => (
   <div className="relative">
     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-      <span className="fi fi-in mr-2">🇮🇳</span> {/* Simple emoji flag */}
+      <span className="fi fi-in mr-2">🇮🇳</span>
       <span className="text-muted-foreground text-sm">+91</span>
     </div>
     <Input
@@ -39,6 +36,9 @@ const CountryCodeInput = () => (
       placeholder="Enter Contact Number"
       className="pl-20"
       data-testid="input-contact-number"
+      value={value}
+      onChange={onChange}
+      required
     />
   </div>
 );
@@ -52,19 +52,68 @@ export const CourseHeroForm = ({
   keyHighlights,
   specializations,
   formImage,
-  heroImage, // Destructure the new prop
+  heroImage,
 }: CourseHeroFormProps) => {
+  const [contactNumber, setContactNumber] = useState('');
+  const [specialization, setSpecialization] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setIsSubmitted(false);
+
+    try {
+      const response = await fetch('/api/brochure-request.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contactNumber,
+          specialization,
+          courseTitle: title,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'An unknown error occurred.');
+      }
+
+      setIsSubmitted(true);
+      
+      if (data.brochureUrl) {
+        const link = document.createElement('a');
+        link.href = data.brochureUrl;
+        link.setAttribute('download', `${title.replace(/\s+/g, '-')}-Brochure.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      
+      setContactNumber('');
+      setSpecialization('');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section 
       className="relative py-16 md:py-20 bg-no-repeat bg-cover bg-center"
       style={{
-        // 2. Use the 'heroImage' prop here to set the background
         backgroundImage: `linear-gradient(rgba(18, 18, 23, 0.95), rgba(18, 18, 23, 0.95)), url('${heroImage}')`
       }}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
-          {/* Left Column: Course Info */}
           <div className="space-y-6 text-white">
             <div className="flex items-center gap-2 text-sm text-gray-300">
               <Link href="/courses">
@@ -88,13 +137,12 @@ export const CourseHeroForm = ({
             </p>
           </div>
 
-          {/* Right Column: Form Card */}
           <div className="w-full max-w-md mx-auto">
             <Card className="bg-card/90 backdrop-blur-sm border-border/20 shadow-xl">
               <CardHeader className="p-0 overflow-hidden rounded-t-lg">
                  <img 
                   src={formImage} 
-                  alt="Data Science Program" 
+                  alt={`${title} Program`}
                   className="w-full h-32 object-cover" 
                 />
               </CardHeader>
@@ -108,26 +156,49 @@ export const CourseHeroForm = ({
                     </li>
                   ))}
                 </ul>
-                <div className="space-y-4 pt-4 border-t">
-                  <CountryCodeInput />
-                  <Select>
+                <form onSubmit={handleSubmit} className="space-y-4 pt-4 border-t">
+                  {isSubmitted && <p className="text-sm text-green-500 text-center font-medium">Thank you! Your brochure is downloading.</p>}
+                  {error && <p className="text-sm text-red-500 text-center font-medium">{error}</p>}
+                  
+                  <CountryCodeInput 
+                    value={contactNumber}
+                    onChange={(e) => setContactNumber(e.target.value)}
+                  />
+                  <Select
+                    value={specialization}
+                    onValueChange={setSpecialization}
+                    required
+                  >
                     <SelectTrigger data-testid="select-specialization">
                       <SelectValue placeholder="Choose one specialization" />
                     </SelectTrigger>
                     <SelectContent>
                       {specializations.map((spec, idx) => (
-                        <SelectItem key={idx} value={spec.toLowerCase().replace(' ', '-')}>{spec}</SelectItem>
+                        <SelectItem key={idx} value={spec}>
+                          {spec}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   <Button 
+                    type="submit"
                     size="lg" 
                     className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white"
                     data-testid="button-download-brochure-hero"
+                    disabled={isLoading}
                   >
-                    Download Brochure <Download className="ml-2 h-4 w-4" />
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        Download Brochure <Download className="ml-2 h-4 w-4" />
+                      </>
+                    )}
                   </Button>
-                </div>
+                </form>
                 <p className="text-xs text-muted-foreground text-center px-4">
                   We respect your privacy. Your data is secure and will only be used to contact you about Hero Vired programs. By filling this form, you agree to our <a href="#" className="underline text-primary">Terms and Conditions</a>.
                 </p>

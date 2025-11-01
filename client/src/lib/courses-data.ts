@@ -156,7 +156,7 @@ export const coursesData: Course[] = [
     ],
     keyHighlights: [],
     skills: [],
-    specializations: [],
+    specializations: ['Machine Learning', 'Deep Learning', 'Natural Language Processing'],
     formImage: marketingFormImg
   },
   {
@@ -246,7 +246,7 @@ export const coursesData: Course[] = [
     ],
     keyHighlights: [],
     skills: [],
-    specializations: [],
+    specializations: ['Frontend with React', 'Backend with Node.js', 'DevOps & Cloud'],
     formImage: devFormImg
   },
   {
@@ -336,7 +336,7 @@ export const coursesData: Course[] = [
     ],
     keyHighlights: [],
     skills: [],
-    specializations: [],
+    specializations: ["Data Analytics Foundation", "Data Visualization", "Database Managemnet"],
     formImage: analyticsFormImg
   }
 ];
