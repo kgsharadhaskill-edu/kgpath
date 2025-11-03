@@ -23,6 +23,7 @@ import NotFound from "@/pages/not-found";
 
 // Import the ChatBot component to be used as a floating widget
 import ChatBot from "./pages/ChatBot";
+import ScrollToTopButton from "./pages/ScrollTop";
 
 function Router(): JSX.Element {
   return (
@@ -59,6 +60,7 @@ function App(): JSX.Element {
         </div>
         <Toaster />
         <ChatBot />
+        <ScrollToTopButton />
 
       </TooltipProvider>
     </QueryClientProvider>
