@@ -1,17 +1,32 @@
 <?php
 include '../config/session_check.php';
-$pageTitle = "Add Booking";
 include '../config/database.php';
-include '../templates/header.php';
 
+// --- PROCESS POST REQUEST FIRST, BEFORE ANY HTML OUTPUT ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO bookings (booking_date, booking_time) VALUES (?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$_POST['booking_date'], $_POST['booking_time']]);
-    $_SESSION['message'] = "Booking added successfully!";
+    
+    try {
+        $stmt->execute([
+            $_POST['booking_date'], 
+            $_POST['booking_time']
+        ]);
+        $_SESSION['message'] = "Booking added successfully!";
+    } catch (PDOException $e) {
+        $_SESSION['message'] = "Error adding booking: " . $e->getMessage();
+    }
+    
+    // Redirect back to the index page
     header("Location: index.php");
-    exit();
+    exit(); // Crucial to stop the script here
 }
+
+// --- IF NOT A POST REQUEST, THEN DISPLAY THE FORM ---
+
+// Now we can set the page title and include the header
+$pageTitle = "Add Booking";
+include '../templates/header.php';
 ?>
 
 <div class="card">

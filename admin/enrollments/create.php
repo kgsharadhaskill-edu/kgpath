@@ -1,23 +1,33 @@
 <?php
 include '../config/session_check.php';
-$pageTitle = "Add Enrollment";
 include '../config/database.php';
-include '../templates/header.php';
 
+// --- PROCESS POST REQUEST FIRST, BEFORE ANY HTML OUTPUT ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO enrollments (name, mobile, education, course, dob) VALUES (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        $_POST['name'],
-        $_POST['mobile'],
-        $_POST['education'],
-        $_POST['course'],
-        $_POST['dob']
-    ]);
-    $_SESSION['message'] = "Enrollment added successfully!";
+    
+    try {
+        $stmt->execute([
+            $_POST['name'],
+            $_POST['mobile'],
+            $_POST['education'],
+            $_POST['course'],
+            $_POST['dob']
+        ]);
+        $_SESSION['message'] = "Enrollment added successfully!";
+    } catch (PDOException $e) {
+        // Optional: Set an error message for debugging
+        $_SESSION['message'] = "Error adding enrollment: " . $e->getMessage();
+    }
+
+    // Redirect back to the index page
     header("Location: index.php");
-    exit();
+    exit(); // Crucial to stop the script here
 }
+
+$pageTitle = "Add Enrollment";
+include '../templates/header.php';
 ?>
 
 <div class="card">

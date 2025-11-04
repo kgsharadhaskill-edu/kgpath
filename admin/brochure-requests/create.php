@@ -1,17 +1,33 @@
 <?php
 include '../config/session_check.php';
-$pageTitle = "Add Brochure Request";
 include '../config/database.php';
-include '../templates/header.php';
 
+// --- PROCESS POST REQUEST FIRST, BEFORE ANY HTML OUTPUT ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO brochure_requests (course_title, contact_number, specialization) VALUES (?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$_POST['course_title'], $_POST['contact_number'], $_POST['specialization']]);
-    $_SESSION['message'] = "Brochure request added successfully!";
+    
+    try {
+        $stmt->execute([
+            $_POST['course_title'], 
+            $_POST['contact_number'], 
+            $_POST['specialization']
+        ]);
+        $_SESSION['message'] = "Brochure request added successfully!";
+    } catch (PDOException $e) {
+        $_SESSION['message'] = "Error adding brochure request: " . $e->getMessage();
+    }
+    
+    // Redirect back to the index page
     header("Location: index.php");
-    exit();
+    exit(); // Crucial to stop the script here
 }
+
+// --- IF NOT A POST REQUEST, THEN DISPLAY THE FORM ---
+
+// Now we can set the page title and include the header
+$pageTitle = "Add Brochure Request";
+include '../templates/header.php';
 ?>
 
 <div class="card">
