@@ -38,7 +38,13 @@ function Router(): JSX.Element {
       {/* Blog routes */}
       <Route path="/blog" component={BlogPage} />
       <Route path="/blog/:slug" component={BlogDetailsPage} />
-      
+      <Route path="/admin">
+        {() => {
+          window.location.href = "https://sharadhaskillacademy.org/admin/"; // add admin ngrok/hosting URL
+          return null;
+        }}
+      </Route>
+
       {/* This should always be the last route */}
       <Route component={NotFound} />
     </Switch>
