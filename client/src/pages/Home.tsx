@@ -1,5 +1,5 @@
 // src/pages/Home.tsx
-
+import ScrollReveal from "./ScrollReveal";
 import {
   AboutSection,
   CoursesSection,
@@ -66,18 +66,42 @@ export default function Home() {
 ];
 
   return (
-    <div className="flex flex-col">
-      <HeroSection heroImg={heroImg} testimonials={testimonialData}  />
-      <CoursesSection/>
-      <WhyChooseUsSection/>
-      <StatsSection stats={stats}
-        heading="Proven Success by the Numbers"
-        subheading="We are proud of our commitment to excellence and the results we deliver. Our stats speak for themselves."
-       />
+     <div className="flex flex-col">
+
+    <ScrollReveal>
+      <HeroSection heroImg={heroImg} testimonials={testimonialData} />
+    </ScrollReveal>
+
+    <ScrollReveal>
+      <CoursesSection />
+    </ScrollReveal>
+
+    <ScrollReveal>
+      <WhyChooseUsSection />
+    </ScrollReveal>
+
+    <ScrollReveal>
+      <StatsSection stats={stats} heading="Proven Success by the Numbers"
+        subheading="We are proud of our commitment to excellence..."
+      />
+    </ScrollReveal>
+
+    <ScrollReveal>
       <TestimonialsSection testimonials={testimonials} />
+    </ScrollReveal>
+
+    <ScrollReveal>
       <HiringPartnersSection companies={companies} />
+    </ScrollReveal>
+
+    <ScrollReveal>
       <CourseFAQSection />
+    </ScrollReveal>
+
+    <ScrollReveal>
       <AboutSection />
-    </div>
+    </ScrollReveal>
+
+  </div>
   );
 }
