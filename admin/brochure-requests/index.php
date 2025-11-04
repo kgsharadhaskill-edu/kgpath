@@ -32,20 +32,19 @@ $stmt->execute();
 $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $sort_params = "&sort={$sort_col}&order={$sort_order}";
 
+// ** NEW: Initialize the sequential row number counter **
+$row_number = ($page - 1) * $limit + 1;
 ?>
 
 <div class="card">
-    <!-- Wrap the table in a form for bulk delete -->
-    <form action="bulk-delete.php" method="post" onsubmit="return confirm('Are you sure you want to delete the selected items?');">
+    <form action="bulk_delete.php" method="post" onsubmit="return confirm('Are you sure you want to delete the selected items?');">
         <div class="card-header">
             <h3 class="card-title">All Brochure Requests</h3>
             <div class="card-tools">
-                <!-- Bulk Delete Button -->
                 <button type="submit" id="deleteSelectedBtn" class="btn btn-danger btn-sm" disabled>
                     <i class="fas fa-trash"></i> Delete Selected
                 </button>
-                <!-- Export to Excel Button -->
-                <a href="export-excel.php" class="btn btn-success btn-sm">
+                <a href="export_excel.php" class="btn btn-success btn-sm">
                     <i class="fas fa-file-excel"></i> Export to Excel
                 </a>
                 <a href="create.php" class="btn btn-primary btn-sm">
@@ -68,7 +67,8 @@ $sort_params = "&sort={$sort_col}&order={$sort_order}";
                             echo "<th><a href=\"?sort={$column}&order={$order}\">{$display} <i class=\"{$icon}\"></i></a></th>";
                         }
                         ?>
-                        <?php sort_link('ID', 'id', $sort_col, $sort_order); ?>
+                        <!-- ** MODIFIED: Changed display text to '#' but still sorts by 'id' ** -->
+                        <?php sort_link('', 'id', $sort_col, $sort_order); ?>
                         <?php sort_link('Course Title', 'course_title', $sort_col, $sort_order); ?>
                         <?php sort_link('Contact Number', 'contact_number', $sort_col, $sort_order); ?>
                         <?php sort_link('Specialization', 'specialization', $sort_col, $sort_order); ?>
@@ -80,17 +80,21 @@ $sort_params = "&sort={$sort_col}&order={$sort_order}";
                     <?php if ($requests): ?>
                         <?php foreach ($requests as $request): ?>
                         <tr>
+                            <!-- The value MUST be the real database ID -->
                             <td><input type="checkbox" name="ids[]" class="row-checkbox" value="<?= $request['id'] ?>"></td>
-                            <td><?= htmlspecialchars($request['id']) ?></td>
+                            <!-- ** MODIFIED: Display the sequential row number ** -->
+                            <td><?= $row_number ?></td>
                             <td><?= htmlspecialchars($request['course_title']) ?></td>
                             <td><?= htmlspecialchars($request['contact_number']) ?></td>
                             <td><?= htmlspecialchars($request['specialization']) ?></td>
                             <td><?= htmlspecialchars(date("M d, Y h:i A", strtotime($request['created_at']))) ?></td>
                             <td>
+                                <!-- Actions MUST use the real database ID -->
                                 <a href="edit.php?id=<?= $request['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="delete.php?id=<?= $request['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                             </td>
                         </tr>
+                        <?php $row_number++; // ** NEW: Increment the counter for the next row ** ?>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
@@ -127,7 +131,7 @@ $sort_params = "&sort={$sort_col}&order={$sort_order}";
 
 <?php include '../templates/footer.php'; ?>
 
-<!-- Add JavaScript for checkbox functionality -->
+<!-- Your Javascript remains unchanged -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const selectAllCheckbox = document.getElementById('selectAll');

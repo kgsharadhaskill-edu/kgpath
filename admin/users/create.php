@@ -1,9 +1,8 @@
 <?php
 include '../config/session_check.php';
-$pageTitle = "Add User";
 include '../config/database.php';
-include '../templates/header.php';
 
+// --- PROCESS POST REQUEST FIRST, BEFORE ANY HTML OUTPUT ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -12,13 +11,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // HASH the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$username, $email, $hashed_password]);
-    $_SESSION['message'] = "User created successfully!";
+    try {
+        $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$username, $email, $hashed_password]);
+        $_SESSION['message'] = "User created successfully!";
+    } catch (PDOException $e) {
+        // Check for duplicate entry error
+        if ($e->errorInfo[1] == 1062) {
+            $_SESSION['message'] = "Error: This username or email already exists.";
+        } else {
+            $_SESSION['message'] = "An error occurred: " . $e->getMessage();
+        }
+    }
+    
+    // Redirect back to the index page
     header("Location: index.php");
-    exit();
+    exit(); // Crucial to stop the script here
 }
+
+// --- IF NOT A POST REQUEST, THEN DISPLAY THE FORM ---
+
+// Now we can set the page title and include the header
+$pageTitle = "Add User";
+include '../templates/header.php';
 ?>
 
 <div class="card">
@@ -36,9 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="email" name="email" class="form-control" required>
             </div>
             <div class="form-group">
-                <label>New Password</label>
+                <label>Password</label>
                 <div class="input-group">
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Leave blank to keep current password">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Enter a strong password" required>
                     <div class="input-group-append">
                         <span class="input-group-text" id="togglePassword" style="cursor:pointer;">
                             <i class="fas fa-eye"></i>
@@ -51,6 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
 </div>
+
+<?php include '../templates/footer.php'; ?>
+
+<!-- Your JavaScript for the password toggle is perfectly placed here -->
 <script>
 document.getElementById("togglePassword").addEventListener("click", function () {
     const passwordField = document.getElementById("password");
@@ -67,4 +87,3 @@ document.getElementById("togglePassword").addEventListener("click", function () 
     }
 });
 </script>
-<?php include '../templates/footer.php'; ?>
