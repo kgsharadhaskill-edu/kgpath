@@ -1,7 +1,7 @@
 <?php
 $allowedOrigins = [
     "http://localhost:5173",
-    "https://opsonic-jonah-indistinctive.ngrok-free.dev",
+    "https://kgpath.gt.tc",
     "https://kg-pa-th.netlify.app"
 ];
 
