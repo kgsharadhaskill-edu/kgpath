@@ -39,14 +39,14 @@ $row_number = ($page - 1) * $limit + 1;
 ?>
 
 <div class="card">
-    <form action="bulk_delete.php" method="post" onsubmit="return confirm('Are you sure you want to delete the selected items?');">
+    <form action="bulk-delete.php" method="post" onsubmit="return confirm('Are you sure you want to delete the selected items?');">
         <div class="card-header">
             <h3 class="card-title">All Bookings</h3>
             <div class="card-tools">
                 <button type="submit" id="deleteSelectedBtn" class="btn btn-danger btn-sm" disabled>
                     <i class="fas fa-trash"></i> Delete Selected
                 </button>
-                <a href="export_excel.php" class="btn btn-success btn-sm">
+                <a href="export-excel.php" class="btn btn-success btn-sm">
                     <i class="fas fa-file-excel"></i> Export to Excel
                 </a>
                 <a href="create.php" class="btn btn-primary btn-sm">
