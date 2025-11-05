@@ -4,8 +4,9 @@ $pageTitle = "Manage Bookings";
 include '../config/database.php';
 include '../templates/header.php';
 
-// --- SORTING & PAGINATION LOGIC (Unchanged) ---
-$allowed_sort_columns = ['id', 'booking_date', 'booking_time', 'created_at'];
+// --- SORTING & PAGINATION LOGIC ---
+// ✅ UPDATE: Add 'name' and 'phone_number' to the list of allowed sortable columns
+$allowed_sort_columns = ['id', 'name', 'phone_number', 'booking_date', 'booking_time', 'created_at'];
 $sort_col = 'created_at';
 if (isset($_GET['sort']) && in_array($_GET['sort'], $allowed_sort_columns)) {
     $sort_col = $_GET['sort'];
@@ -23,16 +24,17 @@ if ($page > $total_pages && $total_pages > 0) $page = $total_pages;
 if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
-// --- DATA FETCHING (Unchanged) ---
+// --- DATA FETCHING ---
+// The `SELECT *` query automatically includes the new columns, so no change is needed here.
 $sql = "SELECT * FROM bookings ORDER BY {$sort_col} {$sort_order} LIMIT :limit OFFSET :offset";
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->bindValue(':offset', 'offset', PDO::PARAM_INT);
 $stmt->execute();
 $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $sort_params = "&sort={$sort_col}&order={$sort_order}";
 
-// ** NEW: Initialize the sequential row number counter **
+// Initialize the sequential row number counter
 $row_number = ($page - 1) * $limit + 1;
 ?>
 
@@ -67,8 +69,13 @@ $row_number = ($page - 1) * $limit + 1;
                             echo "<th><a href=\"?sort={$column}&order={$order}\">{$display} <i class=\"{$icon}\"></i></a></th>";
                         }
                         ?>
-                        <!-- ** MODIFIED: Changed display text to '#' but still sorts by 'id' ** -->
-                        <?php sort_link('', 'id', $sort_col, $sort_order); ?>
+                        <!-- Display '#' but still sort by the actual 'id' column -->
+                        <?php sort_link('#', 'id', $sort_col, $sort_order); ?>
+                        
+                        <!-- ✅ UPDATE: Add sortable headers for Name and Phone Number -->
+                        <?php sort_link('Name', 'name', $sort_col, $sort_order); ?>
+                        <?php sort_link('Phone Number', 'phone_number', $sort_col, $sort_order); ?>
+                        
                         <?php sort_link('Booking Date', 'booking_date', $sort_col, $sort_order); ?>
                         <?php sort_link('Booking Time', 'booking_time', $sort_col, $sort_order); ?>
                         <?php sort_link('Created At', 'created_at', $sort_col, $sort_order); ?>
@@ -79,25 +86,28 @@ $row_number = ($page - 1) * $limit + 1;
                     <?php if ($bookings): ?>
                         <?php foreach ($bookings as $booking): ?>
                         <tr>
-                            <!-- The value MUST be the real database ID -->
                             <td><input type="checkbox" name="ids[]" class="row-checkbox" value="<?= $booking['id'] ?>"></td>
-                            <!-- ** MODIFIED: Display the sequential row number ** -->
+                            <!-- Display the sequential row number -->
                             <td><?= $row_number ?></td>
+                            
+                            <!-- ✅ UPDATE: Display Name and Phone Number data -->
+                            <td><?= htmlspecialchars($booking['name']) ?></td>
+                            <td><?= htmlspecialchars($booking['phone_number']) ?></td>
+
                             <td><?= htmlspecialchars(date("M d, Y", strtotime($booking['booking_date']))) ?></td>
                             <td><?= htmlspecialchars($booking['booking_time']) ?></td>
                             <td><?= htmlspecialchars(date("M d, Y h:i A", strtotime($booking['created_at']))) ?></td>
                             <td>
-                                <!-- Actions MUST use the real database ID -->
                                 <a href="edit.php?id=<?= $booking['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="delete.php?id=<?= $booking['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                             </td>
                         </tr>
-                        <?php $row_number++; // ** NEW: Increment the counter for the next row ** ?>
+                        <?php $row_number++; // Increment the counter for the next row ?>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <!-- ** MODIFIED: colspan is now 6 to account for the new '#' column -->
-                            <td colspan="6" class="text-center">No bookings found.</td>
+                            <!-- ✅ UPDATE: colspan is now 8 to account for the two new columns -->
+                            <td colspan="8" class="text-center">No bookings found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -130,7 +140,7 @@ $row_number = ($page - 1) * $limit + 1;
 
 <?php include '../templates/footer.php'; ?>
 
-<!-- Your Javascript remains unchanged -->
+<!-- The Javascript for bulk delete does not need any changes -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const selectAllCheckbox = document.getElementById('selectAll');
