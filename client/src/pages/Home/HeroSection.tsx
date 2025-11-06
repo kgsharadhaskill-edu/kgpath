@@ -1,18 +1,15 @@
-// src/components/HeroSection.tsx
-
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react'; // <-- Added Suspense here
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Star, Quote, X } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
-
-// Import the ContactForm component (adjust the path as needed)
 import ContactForm from './ContactForm'; 
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
+
+// Using React.lazy to code-split and load the component only on the client-side.
+const Hyperspeed = lazy(() => import('../../animation/Hyperspeed'));
 
 interface Testimonial {
   id: number;
@@ -25,35 +22,28 @@ interface Testimonial {
 }
 
 interface HeroSectionProps {
-  heroImg: string;
   testimonials: Testimonial[];
 }
 
-export default function HeroSection({ heroImg, testimonials }: HeroSectionProps) {
-  // State to control the visibility of the contact form modal
+export default function HeroSection({ testimonials }: HeroSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Handlers to open and close the modal
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
     <>
       <div className="relative flex flex-col w-full min-h-screen overflow-hidden bg-black">
-        {/* Background Image & Gradient */}
-        <div
-          className="absolute inset-0 z-0 opacity-30"
-          style={{
-            backgroundImage: `url(${heroImg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+        
+        <div className="absolute inset-0 z-0">
+          <Suspense fallback={null}>
+            <Hyperspeed />
+          </Suspense>
+        </div>
 
-        {/* Main Content Area */}
+        <div className="absolute inset-0 z-[5] bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+        {/* Main Content Area - This remains on top with z-10 */}
         <div className="relative z-10 flex-grow max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          {/* === UPDATED: Reduced top padding to move content up === */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-16 gap-x-8 items-center pt-20 md:pt-24 pb-16">
             
             {/* Left Column: Text Content */}
@@ -68,7 +58,7 @@ export default function HeroSection({ heroImg, testimonials }: HeroSectionProps)
                 <Button 
                   size="lg" 
                   className="text-base md:text-lg px-8 bg-purple-600 hover:bg-purple-700"
-                  onClick={openModal} // Open modal on click
+                  onClick={openModal}
                 >
                   ⚡ Start Learning
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -90,20 +80,16 @@ export default function HeroSection({ heroImg, testimonials }: HeroSectionProps)
               <Swiper modules={[Pagination, Autoplay]} spaceBetween={30} slidesPerView={1} loop={true} autoplay={{ delay: 5000, disableOnInteraction: false }} className="w-full h-full hero-swiper">
                 {testimonials.map((testimonial) => (
                   <SwiperSlide key={testimonial.id} className="self-center">
-                    {/* === UPDATED: Responsive container for testimonial card === */}
                     <div className="flex items-center justify-center h-full">
-                      {/* Container for image and card. Flex-col on mobile, relative on desktop */}
                       <div className="flex flex-col items-center lg:relative w-full max-w-sm lg:max-w-md mx-auto">
-                        {/* Image */}
                         <img
                           src={testimonial.image}
                           alt={testimonial.name}
                           className="w-full h-auto object-contain max-h-[400px] lg:max-h-[480px]"
                         />
-                        {/* Card. Positioned below on mobile, absolute on desktop */}
                         <div className="
-                          relative w-[90%] max-w-[340px] -mt-10  /* Mobile: Stacked below with negative margin */
-                          lg:absolute lg:bottom-8 lg:right-4 lg:mt-0 lg:w-auto /* Desktop: Absolute positioned */
+                          relative w-[90%] max-w-[340px] -mt-10
+                          lg:absolute lg:bottom-8 lg:right-4 lg:mt-0 lg:w-auto
                           z-10
                         ">
                           <div className="relative bg-black/40 backdrop-blur-xl border border-white/20 rounded-lg p-5 text-white shadow-2xl">
@@ -131,36 +117,34 @@ export default function HeroSection({ heroImg, testimonials }: HeroSectionProps)
 
         {/* Bottom company logos section */}
         <div className="relative z-10 w-full mt-auto overflow-hidden">
-        <div className="max-w-screen-xl mx-auto px-8">
-          <div className="py-8 text-center">
-            {/* === UPDATED: Responsive font size for heading === */}
-            <h3 className="text-xs sm:text-sm font-semibold tracking-widest text-red-500 mb-6">
-              BREAK INTO THE TOP 1% WITH AI POWERED-SKILLS
-            </h3>
-            <div className="relative w-full overflow-hidden">
-              <div className="flex whitespace-nowrap animate-marquee text-gray-400 grayscale opacity-60">
-                {['Goldman Sachs', 'Google', 'HDFC Bank', 'ICICI Bank', 'Shell', 'JPMorganChase', 'Goldman Sachs', 'Google', 'HDFC Bank', 'ICICI Bank', 'Shell', 'JPMorganChase'].map((company, i) => (
-                  // === UPDATED: Responsive font size for logos ===
-                  <span key={i} className="mx-10 text-base sm:text-lg font-medium">
-                    {company}
-                  </span>
-                ))}
+          <div className="max-w-screen-xl mx-auto px-8">
+            <div className="py-8 text-center">
+              <h3 className="text-xs sm:text-sm font-semibold tracking-widest text-red-500 mb-6">
+                BREAK INTO THE TOP 1% WITH AI POWERED-SKILLS
+              </h3>
+              <div className="relative w-full overflow-hidden">
+                <div className="flex whitespace-nowrap animate-marquee text-gray-400 grayscale opacity-60">
+                  {['Goldman Sachs', 'Google', 'HDFC Bank', 'ICICI Bank', 'Shell', 'JPMorganChase', 'Goldman Sachs', 'Google', 'HDFC Bank', 'ICICI Bank', 'Shell', 'JPMorganChase'].map((company, i) => (
+                    <span key={i} className="mx-10 text-base sm:text-lg font-medium">
+                      {company}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       {/* Modal for the Contact Form */}
       {isModalOpen && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm"
-          onClick={closeModal} // Close modal on overlay click
+          onClick={closeModal}
         >
           <div 
             className="relative w-full max-w-6xl mx-auto m-4"
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+            onClick={(e) => e.stopPropagation()}
           >
             <button
                 onClick={closeModal}

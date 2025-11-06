@@ -24,6 +24,7 @@ import NotFound from "@/pages/not-found";
 // Import the ChatBot component to be used as a floating widget
 import ChatBot from "./pages/ChatBot";
 import ScrollToTopButton from "./pages/ScrollTop";
+import Hyperspeed from "./HeroBackground";
 
 function Router(): JSX.Element {
   return (
