@@ -14,7 +14,7 @@ export type Center = {
 
 export const centers: Center[] = [
   {
-    name: "KGPath Main Campus, Saravanampatti",
+    name: "KGPath Main Campus, vedapatti, Perur.",
     city: "Coimbatore",
     lat: 11.0517,
     lng: 76.9896,
