@@ -1,3 +1,5 @@
+// src/components/ContactPage.tsx
+
 import React from 'react';
 import MultiModalContact from '../pages/Contact/MultiModalContact';
 import BookingCalendar from '../pages/Contact/BookingCalendar';
@@ -20,22 +22,21 @@ const ContactPage = () => {
                 </header>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    {/* Main Content Area */}
                     <div className="lg:col-span-2 space-y-24">
                         <MultiModalContact />
                         <BookingCalendar />
                         <LocationSelector />
-                        <InteractiveFAQ />
                     </div>
 
-                    {/* Sidebar */}
                     <aside className="lg:col-span-1 space-y-12">
                         <CounselorContactList />    
                         <SuccessStories />
                     </aside>
                 </div>
                 
-                {/* Floating Action Buttons */}
+                <div className="mt-24">
+                    <InteractiveFAQ />
+                </div>
             </main>
         </div>
     );

@@ -18,14 +18,6 @@ const InteractiveFAQ = () => {
         <section>
             <SectionTitle title="Have Questions?" subtitle="Find quick answers to common queries. If you don't find what you're looking for, we're a click away." />
             <div className="max-w-3xl mx-auto">
-                <div className="relative mb-8">
-                    <FaSearch className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400" />
-                    <input 
-                        type="text" 
-                        placeholder="Type your question..."
-                        className="w-full bg-white border border-gray-300 rounded-full py-3 pl-12 pr-4 text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
-                    />
-                </div>
                 <div className="space-y-4">
                     {faqItems.map((item, i) => (
                         <div key={i} className="bg-slate-50 border border-gray-200 rounded-lg">
