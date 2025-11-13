@@ -1,7 +1,7 @@
 <?php
 $allowedOrigins = [
     "http://localhost:5173",
-    "https://kgpath.gt.tc",
+    "https://kgpath.com",
     "https://kg-pa-th.netlify.app"
 ];
 

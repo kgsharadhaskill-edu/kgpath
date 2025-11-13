@@ -69,7 +69,7 @@ export default function Home() {
      <div className="flex flex-col">
 
     <ScrollReveal>
-      <HeroSection heroImg={heroImg} testimonials={testimonialData} />
+      <HeroSection {...({ heroImg, testimonials: testimonialData } as any)} />
     </ScrollReveal>
 
     <ScrollReveal>

@@ -24,7 +24,6 @@ import NotFound from "@/pages/not-found";
 // Import the ChatBot component to be used as a floating widget
 import ChatBot from "./pages/ChatBot";
 import ScrollToTopButton from "./pages/ScrollTop";
-import Hyperspeed from "./HeroBackground";
 
 function Router(): JSX.Element {
   return (
@@ -41,7 +40,7 @@ function Router(): JSX.Element {
       <Route path="/blog/:slug" component={BlogDetailsPage} />
       <Route path="/admin">
         {() => {
-          window.location.href = "https://sharadhaskillacademy.org/admin/"; // add admin ngrok/hosting URL
+          window.location.href = "https://kgpath.com/admin/"; // add admin ngrok/hosting URL
           return null;
         }}
       </Route>

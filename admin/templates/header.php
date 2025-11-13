@@ -72,11 +72,17 @@ if (strpos($basePath, '/admin') !== false) {
                 </li>
 
                 <li class="nav-item">
+                    <a href="<?php echo $basePath; ?>/admin/chatbot.php" class="nav-link">
+                        <i class="nav-icon fas fa-comments"></i><p>Live Chat</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="<?php echo $basePath; ?>/admin/call-clicks/index.php" class="nav-link">
                         <i class="nav-icon fas fa-phone"></i><p>Call Clicks</p>
                     </a>
                 </li>
-
+                
                 <li class="nav-item">
                     <a href="<?php echo $basePath; ?>/admin/users/index.php" class="nav-link">
                         <i class="nav-icon fas fa-users-cog"></i><p>Manage Users</p>
