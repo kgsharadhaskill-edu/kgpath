@@ -2,7 +2,6 @@
 $allowedOrigins = [
     "http://localhost:5173",
     "https://kgpath.com",
-    "https://kg-pa-th.netlify.app"
 ];
 
 if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {

@@ -1,6 +1,6 @@
 <?php
 // --- START: BACKEND API LOGIC FOR ADMIN DASHBOARD ---
-
+include 'config/session_check.php';
 // Adjust the path if your db.php is elsewhere
 require_once 'config/database.php'; 
 
@@ -346,7 +346,7 @@ $(function() {
                                 <span class="direct-chat-name float-${isAgent ? 'right' : 'left'}">${isAgent ? 'You (Agent)' : 'User'}</span>
                                 <span class="direct-chat-timestamp float-${isAgent ? 'left' : 'right'}">${messageTime}</span>
                             </div>
-                            <img class="direct-chat-img" src="https://adminlte.io/themes/v3/dist/img/${isAgent ? 'user1-128x128.jpg' : 'user3-128x128.jpg'}" alt="message user image">
+                            <img class="direct-chat-img" src="dist/img/${isAgent ? 'favicon.png' : 'user.png'}" alt="message user image">
                             <div class="direct-chat-text">${msg.message}</div>
                         </div>`;
                     chatBox.append(messageHtml);

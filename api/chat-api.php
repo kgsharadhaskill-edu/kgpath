@@ -9,7 +9,6 @@ header("Content-Type: application/json; charset=UTF-8");
 $allowedOrigins = [
     "http://localhost:5173",
     "https://kgpath.com",
-    "https://kg-pa-th.netlify.app"
 ];
 
 // Check the origin and set the correct header
