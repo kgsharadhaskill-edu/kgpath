@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Helmet } from "react-helmet-async";
 import type { LucideIcon } from 'lucide-react';
 
 interface Stat {
@@ -11,12 +12,14 @@ interface StatsSectionProps {
   stats: Stat[];
   heading?: string;
   subheading?: string;
+  id?: string; // optional SEO-friendly ID
 }
 
 export default function StatsSection({
   stats,
   heading,
   subheading,
+  id = "kgpath-stats",
 }: StatsSectionProps) {
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -26,52 +29,92 @@ export default function StatsSection({
       (entries) => {
         if (entries[0].isIntersecting) {
           setVisible(true);
-          // Optional: Disconnect after becoming visible to prevent re-triggering
           observer.disconnect();
         }
       },
       { threshold: 0.3 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-20 bg-card">
+    <section
+      id={id}
+      ref={sectionRef}
+      className="py-16 md:py-20 bg-card"
+      aria-label="KGPath student success statistics"
+    >
+      {/* ---------- SEO TAGS ---------- */}
+      <Helmet>
+        <meta
+          name="description"
+          content="KGPath student success stats: placement rate, salary growth, project completion numbers, and community achievements in AI-driven careers."
+        />
+
+        {/* Structured Data for Stats */}
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "KGPath",
+            "description": "AI-powered education institute offering job-ready programs.",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.5",
+              "reviewCount": "500"
+            },
+            "metrics": [
+              ${stats
+                .map(
+                  (stat) => `{
+                "@type": "QuantitativeValue",
+                "name": "${stat.label}",
+                "value": "${stat.value}"
+              }`
+                )
+                .join(",")}
+            ]
+          }
+          `}
+        </script>
+      </Helmet>
+      {/* ---------------------------------- */}
+
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        {/* Heading and Subheading Section */}
+        
+        {/* Heading / Subheading */}
         {(heading || subheading) && (
-          <div className="text-center mb-12">
+          <header className="text-center mb-12">
             {heading && (
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                 {heading}
               </h2>
             )}
+
             {subheading && (
               <p className="mt-3 max-w-2xl mx-auto text-lg text-muted-foreground">
                 {subheading}
               </p>
             )}
-          </div>
+          </header>
         )}
 
-        {/* Stats Grid */}
+        {/* ---------- Stats Grid ---------- */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
+
             const targetValue = parseInt(stat.value.replace(/\D/g, '')) || 0;
             const [count, setCount] = useState(0);
 
-            // Animate count-up only when visible
             useEffect(() => {
               if (!visible) return;
+
               let start = 0;
-              const duration = 1500; // 1.5 seconds
-              // Avoid division by zero and ensure stepTime is at least 1
+              const duration = 1500;
               const stepTime =
                 targetValue > 0
                   ? Math.max(1, Math.floor(duration / targetValue))
@@ -91,24 +134,36 @@ export default function StatsSection({
             }, [visible, targetValue]);
 
             return (
-              <div
+              <article
                 key={idx}
                 className="text-center"
+                aria-labelledby={`stat-title-${idx}`}
                 data-testid={`stat-${idx}`}
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3">
+                {/* Icon */}
+                <div
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3"
+                  role="img"
+                  aria-label={`${stat.label} icon`}
+                >
                   <Icon className="h-6 w-6 text-primary" />
                 </div>
-                <div className="text-3xl md:text-5xl font-bold text-primary mb-2 transition-all">
-                  {/* Display the animated count or the final target value if animation is done */}
+
+                {/* Animated Number */}
+                <div
+                  id={`stat-title-${idx}`}
+                  className="text-3xl md:text-5xl font-bold text-primary mb-2 transition-all"
+                >
                   {visible ? count : 0}
                   {/\D+$/.test(stat.value) &&
-                    stat.value.replace(/[0-9]/g, '') /* keep symbols like + or K */}
+                    stat.value.replace(/[0-9]/g, '')}
                 </div>
-                <div className="text-sm md:text-base text-muted-foreground">
+
+                {/* Label */}
+                <p className="text-sm md:text-base text-muted-foreground">
                   {stat.label}
-                </div>
-              </div>
+                </p>
+              </article>
             );
           })}
         </div>
